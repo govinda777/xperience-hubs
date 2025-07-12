@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Ou a branch que você usa como principal
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Para sites estáticos simples, não precisamos de Node.js ou build.
+      # Se o seu site usar um gerador de site estático (como Jekyll, Hugo, Next.js, etc.),
+      # você precisará adicionar etapas para configurar o ambiente e construir o site.
+      # Exemplo para Node.js (descomente e ajuste se necessário):
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18' # Ou a versão que seu projeto usa
+      # - name: Install dependencies
+      #   run: npm install # Ou yarn install
+      # - name: Build project
+      #   run: npm run build # Ou o comando de build do seu projeto
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ # Para sites estáticos simples, publicamos o diretório raiz
+          # Se o seu build gerar arquivos em outra pasta (ex: 'build', 'dist', 'public'),
+          # altere 'publish_dir' para essa pasta. Ex: publish_dir: ./build
+          # publish_branch: gh-pages # Opcional: branch para onde fazer o deploy (padrão: gh-pages)
+          # cname: your-custom-domain.com # Opcional: se você usa um domínio customizado
